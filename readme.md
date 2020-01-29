@@ -44,7 +44,7 @@ Compare the gapminder data (mostly tidy)...
 head(gapminder)
 ```
 
-With a messy version
+With a "messy" version
 
 ```
 gapminderMessy <- gapminder %>% select(-pop, -gdpPercap) %>% spread(year, lifeExp)
@@ -56,7 +56,8 @@ head(gapminderMessy)
 Begin by telling `ggplot` what data to use and define the **aesthetic mappings**. **Aesthetic mappings** describe how variables in the data are mapped to visual properties of plots (eg x values, y values)
 
 ```
-ggplot(df1, aes(x = year, y = lifeExp)) + geom_point()
+ggplot(df1, aes(x = year, y = lifeExp)) + 
+    geom_point()
 ```
 
 ## Changing the plot type
@@ -64,17 +65,69 @@ ggplot(df1, aes(x = year, y = lifeExp)) + geom_point()
 We can keep the code where we define our data and the aesthetic mappings and simply change the type of plot by replacing `geom_point()` with `geom_line()`
 
 ```
-ggplot(df1, aes(x = year, y = lifeExp)) + geom_line()
+ggplot(df1, aes(x = year, y = lifeExp)) + 
+    geom_line()
 ```
 
 But the output looks strange because it's drawing a line between all data points, rather than by country. So when we change the plot type we sometimes need to change or add aesthetic mappings
 
 ```
-ggplot(df1, aes(x = year, y = lifeExp)) + geom_line(aes(group = country, color = continent))
+ggplot(df1, aes(x = year, y = lifeExp)) + 
+    geom_line(aes(group = country, color = continent))
 ```
 
 # 4. Refining and tweaking your plot
 
+`ggplot` allows you to specify how many different elements of the plot should be displayed - colors, size, position
+
+There's a [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) that summarises many of these. However, rather than trying to customise everything we can also start by using themes to format our plot and then adjust once we find a theme that is close to what we want.
+
+To make our life easier let's assign the basic plot syntax so we don't need to keep repeating it
+
+```
+gmPlot <- ggplot(df1, aes(x = year, y = lifeExp)) + 
+    geom_line(aes(group = country, color = continent))
+```
+BW theme
+```
+gmPlot +
+    theme_bw()
+```
+
+Mimimal theme
+
+```
+gmPlot +
+    theme_minimal()
+```
+
+The `ggthemes` package includes more themes. First we need to load the package
+
+```
+library(ggthemes)
+```
+
+Tufte theme
+```
+gmPlot +
+    theme_tufte()
+```
+
+Economist theme
+
+```
+gmPlot +
+    theme_economist()
+```
+
+Or make it look like you did your plot in Stata
+
+```
+
+gmPlot +
+    theme_stata()
+
+```
 
 # Resources: Principles of a good plot
 
