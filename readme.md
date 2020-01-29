@@ -16,6 +16,10 @@
 
 ## Open rStudio desktop or rstudio.cloud
 
+Launch rstudio on your desktop.
+
+If you don't have rstudio installed then go to [rstudio.cloud](https://rstudio.cloud) and login with your Burnet credentials
+
 ## Install packages
 
 In rStudio, open and run `libraries.R`. This script will install the packages needed for working with ggplot.
