@@ -57,27 +57,43 @@ gapminderMessy <- gapminder %>% select(-pop, -gdpPercap) %>% spread(year, lifeEx
 head(gapminderMessy)
 ```
 
+Some of the following text and code comes from the Monash Data Fluency [Intro to R course](https://monashdatafluency.github.io/r-intro-2/plotting-with-ggplot2.html). Their course material includes some great guidance on manipulating and formatting plots in `ggplot` that aren't covered here.
+
 ## Coding a basic plot
 
-Begin by telling `ggplot` what data to use and define the **aesthetic mappings**. **Aesthetic mappings** describe how variables in the data are mapped to visual properties of plots (eg x values, y values).
+Begin by telling `ggplot` what **data** to use and define the **aesthetic mappings**. **Aesthetic mappings** describe how variables in the data are mapped to visual properties of plots (eg x values, y values).
 
-Then we can specify the type of plot we want to generate, in this case a **scatter plot** for which we use `geom_point` in `ggplot`.
+Then we can specify the graphical element to display. In `ggplot` we call these `geometric objects` or `geoms` for short. Think of these as the type of plot you want to generate. In this case a **scatter plot** for which we use `geom_point` in `ggplot`.
 
 ```
 ggplot(df1, aes(x = year, y = lifeExp)) + 
     geom_point()
 ```
 
+So to produce a plot we need to specify as a minimum these three things:
+
+1. A data frame containing our data.
+2. How the columns of the data frame can be translated into positions, colors, sizes, and shapes of graphical elements (“aesthetics”).
+3. The actual graphical elements to display (“geometric objects”).
+
+## Further Aesthetics
+
+Further aesthetics can be used. Any aesthetic can be either numeric or categorical, an appropriate scale will be used.
+```
+ggplot(gap_geo, aes(x=year, y=life_exp, color=region, size=population)) +
+    geom_point()
+```
+
 ## Changing the plot type
 
-We can keep the code where we define our data and the aesthetic mappings and simply change the type of plot by replacing `geom_point()` with `geom_line()`
+We can keep the code where we define our data and the aesthetic mappings and simply change the type of using a different `geom`, ie replacing `geom_point()` with `geom_line()`.
 
 ```
 ggplot(df1, aes(x = year, y = lifeExp)) + 
     geom_line()
 ```
 
-But the output looks strange because it's drawing a line between all data points, rather than by country. So when we change the plot type we sometimes need to change or add aesthetic mappings
+But the output looks strange because it's drawing a line between all data points, rather than by country. So when we change the plot type we sometimes need to change or add aesthetic mappings.
 
 ```
 ggplot(df1, aes(x = year, y = lifeExp)) + 
