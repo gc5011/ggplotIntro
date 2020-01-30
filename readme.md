@@ -150,7 +150,7 @@ ggplot(df1, aes(x = year, y = lifeExp)) +
     facet_wrap(~continent)
 ```
 
-Let's try doing this by World Bank Income Classification. This following section is a bit fiddly but what it does it gets the world bank classification(current) and joins it to our gapminder data in a new dataframe `df2`
+Let's try doing this by World Bank Income Classification. This following section is a bit fiddly for those unfamiliar with R. Basically it gets the current world bank classification for each country and joins it to our gapminder data in a new dataframe `df2`
 
 ```
 # We use `gdata` to import excel data
@@ -160,15 +160,18 @@ library(gdata)
 # Import the excel data
 wbclass <- read.xls("http://databank.worldbank.org/data/download/site-content/CLASS.xls", skip = 2, blank.lines.skip = TRUE)
 
-# And then we drop the blank first row using dplyr
+# Using dplyr, we drop the blank first row (where `Economy` is "x")
+# and select only the vars we need. We also rename `Economy` to `country` to 
+# make the join easier
 library(dplyr)
 wbclass <- wbclass %>%
     filter(Economy != "x") %>%
-    # Select only the vars we need and rename Economy to country to make the join easier
     select(country = Economy, Income.group) 
 
-# Join the classification to the gapminder data
-df2 <- left_join(df1, wbclass, by = "country" )
+# Join the classification to the gapminder data. A left join keeps all the 
+# rows from the first table and joins data from the second table if there is a 
+# match (and creates more rows if there is more than one match)
+df2 <- left_join(df1, wbclass, by = "country")
 ```
 
 Now we can do a facet grid where we split plots into panels over two vars
@@ -178,7 +181,9 @@ ggplot(df2, aes(x = year, y = lifeExp)) +
     facet_grid(Income.group~continent)
 ```
 
-A further improvement would be make `Income.group` an ordered factor ie High Income > Upper middle income > Lower middle income > Low income. Then the grid would display income in the correct order.
+A further improvement would be make `Income.group` an ordered factor ie High Income > Upper middle income > Lower middle income > Low income. Then the grid would display income in the correct order. 
+
+We could also look at the countries that had `NA` and see why there wasn't a match in the world bank data. Typically this might be a variation in the country name eg you could have something line "Democratic Republic Of the Congo" in one dataest and " Dem. Rep. Congo" in the other.
 
 # Resources
 
