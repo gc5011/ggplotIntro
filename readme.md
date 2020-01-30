@@ -78,15 +78,15 @@ So to produce a plot we need to specify as a minimum these three things:
 
 ## Further Aesthetics
 
-Further aesthetics can be used. Any aesthetic can be either numeric or categorical, an appropriate scale will be used.
+Further aesthetics can be used. Any aesthetic can be either numeric or categorical, an appropriate scale will be used. Here we add colour and size mappings.
 ```
-ggplot(gap_geo, aes(x=year, y=life_exp, color=region, size=population)) +
+ggplot(df1, aes(x=year, y=lifeExp, color=continent, size=pop)) +
     geom_point()
 ```
 
 ## Changing the plot type
 
-We can keep the code where we define our data and the aesthetic mappings and simply change the type of using a different `geom`, ie replacing `geom_point()` with `geom_line()`.
+We can keep the code where we define our data and the aesthetic mappings and simply change the type of `geom` to get a different plot type, ie by replacing `geom_point()` with `geom_line()`.
 
 ```
 ggplot(df1, aes(x = year, y = lifeExp)) + 
