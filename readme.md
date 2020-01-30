@@ -86,9 +86,14 @@ ggplot(df1, aes(x = year, y = lifeExp)) +
 
 # 4. Refining and tweaking your plot
 
+## Manipulating plot elements
+
 `ggplot` allows you to specify how many different elements of the plot should be displayed - colors, size, position
 
-There's a [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) that summarises many of these. However, rather than trying to customise everything we can also start by using themes to format our plot and then adjust once we find a theme that is close to what we want.
+There's a [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) that summarises many of these.
+
+## Using themes
+However, rather than trying to customise everything we can also start by using themes to format our plot and then adjust once we find a theme that is close to what we want.
 
 To make our life easier let's assign the basic plot syntax so we don't need to keep repeating it
 
@@ -135,6 +140,46 @@ gmPlot +
     theme_stata()
 ```
 
+## Faceting
+
+Faceting allows you to generate a panel of plots over a variable (usually a categorical). Let's break our gapminder data into a series of plots by continent using `facet_wrap`
+
+```
+ggplot(df1, aes(x = year, y = lifeExp)) + 
+    geom_line(aes(group = country)) + 
+    facet_wrap(~continent)
+```
+
+Let's try doing this by World Bank Income Classification. This following section is a bit fiddly but what it does it gets the world bank classification(current) and joins it to our gapminder data in a new dataframe `df2`
+
+```
+# We use `gdata` to import excel data
+install.packages("gdata")
+library(gdata)
+
+# Import the excel data
+wbclass <- read.xls("http://databank.worldbank.org/data/download/site-content/CLASS.xls", skip = 2, blank.lines.skip = TRUE)
+
+# And then we drop the blank first row using dplyr
+library(dplyr)
+wbclass <- wbclass %>%
+    filter(Economy != "x") %>%
+    # Select only the vars we need and rename Economy to country to make the join easier
+    select(country = Economy, Income.group) 
+
+# Join the classification to the gapminder data
+df2 <- left_join(df1, wbclass, by = "country" )
+```
+
+Now we can do a facet grid where we split plots into panels over two vars
+```
+ggplot(df2, aes(x = year, y = lifeExp)) + 
+    geom_line(aes(group = country)) + 
+    facet_grid(Income.group~continent)
+```
+
+A further improvement would be make `Income.group` an ordered factor ie High Income > Upper middle income > Lower middle income > Low income. Then the grid would display income in the correct order.
+
 # Resources
 
 ## Guides to how to choose the right visualisation
@@ -163,7 +208,7 @@ install.packages("haven")
 library(haven)
 
 # Example import syntax
-myPlotData <- read_dta("/Users/Myname/Mydata.dta")
+mPlotData <- read_dta("/Users/Myname/Mydata.dta")
 
 # Plot the data
 ggplot(myPlotData, aes(x = var1, y = var2)) + geom(point)
