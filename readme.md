@@ -12,6 +12,12 @@
 * What type of data do you have?
 * What will communicate the trends and meaning you want to highlight in your data?
 
+These two sites provide some useful guidance on which types of plots (or visualisations) are suitable for different data types and different numbers of variables:
+
+* [data-to-viz](https://www.data-to-viz.com/)
+
+* [data viz catalogue](https://datavizcatalogue.com/search.html)
+
 # 2. Setting up R studio for plotting
 
 ## Open rStudio desktop or rstudio.cloud
@@ -53,7 +59,9 @@ head(gapminderMessy)
 
 ## Coding a basic plot
 
-Begin by telling `ggplot` what data to use and define the **aesthetic mappings**. **Aesthetic mappings** describe how variables in the data are mapped to visual properties of plots (eg x values, y values)
+Begin by telling `ggplot` what data to use and define the **aesthetic mappings**. **Aesthetic mappings** describe how variables in the data are mapped to visual properties of plots (eg x values, y values).
+
+Then we can specify the type of plot we want to generate, in this case a **scatter plot** for which we use `geom_point` in `ggplot`.
 
 ```
 ggplot(df1, aes(x = year, y = lifeExp)) + 
@@ -123,13 +131,11 @@ gmPlot +
 Or make it look like you did your plot in Stata
 
 ```
-
 gmPlot +
     theme_stata()
-
 ```
 
-# Resources: Principles of a good plot
+# Resources
 
 ## Guides to how to choose the right visualisation
 
@@ -144,3 +150,23 @@ gmPlot +
 * *The visual display of quantitative information* by Edward Tufte is a good intro
 
 * *The functional art* and *The truthful art* by Albert Cairo. Available through Safari Books - [The functional art]( https://learning.oreilly.com/library/view/the-functional-art/9780133041187/) and [The truthful art](https://learning.oreilly.com/library/view/the-truthful-art/9780133440492/). Monash staff have access to safari books. I suspect it's the same for University of Melbourne
+
+## Importing stata data sets
+
+You can use `R` for plotting while continuing to use `Stata` for data cleaning and analysis. The easiest way to do this is to save your `Stata` data. You can use the `haven` package to read `Stata` data sets.
+
+```
+# Run this line if you don't already have `haven` or `tidyverse` installed
+install.packages("haven")
+
+# Load the library
+library(haven)
+
+# Example import syntax
+myPlotData <- read_dta("/Users/Myname/Mydata.dta")
+
+# Plot the data
+ggplot(myPlotData, aes(x = var1, y = var2)) + geom(point)
+```
+
+The [documentation on read_dta](https://haven.tidyverse.org/reference/read_dta.html) lists the other arguments/options for importing a `.dta` file.
