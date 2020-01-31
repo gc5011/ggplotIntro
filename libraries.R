@@ -1,8 +1,6 @@
-install.packages(
-    "gapminder"
-    , "ggplot2"
-    , "ggthemes"
-    , "dplyr"
-    , "tidyr"
-    , "RColorBrewer"
-)
+install.packages("gapminder")
+install.packages("ggplot2")
+install.packages("ggthemes")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("RColorBrewer")

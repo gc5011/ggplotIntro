@@ -1,13 +1,12 @@
 # Load libraries
 
-library(
-    gapminder
-    , ggplot2
-    , ggthemes
-    , dplyr
-    , tidyr
-    , RColorBrewer
-)
+library(gapminder)
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(tidyr)
+library(RColorBrewer)
 
-# Assign gapminder data into data frame
-data <- gapminder
+
+# Assign gapminder data
+df1 <- gapminder
