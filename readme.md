@@ -229,7 +229,7 @@ install.packages("haven")
 library(haven)
 
 # Example import syntax
-mPlotData <- read_dta("/Users/Myname/Mydata.dta")
+myPlotData <- read_dta("/Users/Myname/Mydata.dta")
 
 # Plot the data
 ggplot(myPlotData, aes(x = var1, y = var2)) + geom(point)
